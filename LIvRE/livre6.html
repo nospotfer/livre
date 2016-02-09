@@ -1,0 +1,350 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LIvRE - Lucene Image Video REtrieval</title>
+  <style type='text/css'>
+        
+    #videoResults {
+		font-size: 1.5em
+    }
+    
+  </style>
+  <!-- <link rel="stylesheet" href="//vjs.zencdn.net/4.12/video-js.css" >
+  <script src="//vjs.zencdn.net/4.12/video.js"></script> -->
+  
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" >
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"> </script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"> </script>
+  
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <!-- Latest compiled JavaScript -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  
+  <!-- for capturing video frames -->
+  <script src="canvas2image.js"></script>
+
+  <script>
+        
+        solrUrlPrefix = "http://localhost:8983/solr/collection1/";
+        apacheUrlPrefix = "http://localhost/";
+        numMaxVideosToShow = 3;
+		numRows =12;
+        
+        function videoResults(name, path) {
+                this.videoName = name;
+				this.videoId = name.substring(0, name.lastIndexOf("."));	
+				this.videoPath = path;
+                this.videoTime = new Array();
+				this.frameRank = new Array();
+                //this.queryDistance = -1;
+		}
+        
+		function getURIformcanvas() {
+			var ImageURItoShow = "";
+			var canvasFromVideo = document.getElementById("imageView");
+				if (canvasFromVideo.getContext) {
+					var ctx = canvasFromVideo.getContext("2d"); // Get the context for the canvas.canvasFromVideo.
+					var ImageURItoShow = canvasFromVideo.toDataURL("image/png");
+					window.open(ImageURItoShow, "toDataURL() image", "width=300, height=200");
+				}
+           			   
+		    var imgs = document.getElementById("imgs");
+		   
+			imgs.appendChild(Canvas2Image.convertToImage(canvasFromVideo, 300, 200, 'png'));
+		}
+
+       //var videoId = 'video';
+
+		function capture(videoId) {
+			
+			var video = document.getElementById(videoId.id);
+
+			var canvasDraw = document.getElementById('imageView');
+			var w = canvasDraw.width;
+			var h = canvasDraw.height;
+			var ctxDraw = canvasDraw.getContext('2d');
+
+			ctxDraw.clearRect(0, 0, w, h);
+
+			ctxDraw.drawImage(video, 0, 0, w, h);
+			ctxDraw.save();
+
+			getURIformcanvas();	 
+		}
+		
+        //function reWriteImageUrl(imgUrlOriginal) {
+        //        imgUrl = apacheUrlPrefix + imgUrlOriginal.replace("C:\\Users\\Gabriel\\xampp\\htdocs\\",''); //Path to server files root
+        //        				
+        //        return imgUrl;
+        //}
+        
+        function printVideoResults(docs) {
+                var lastVideo = $("#videoResults");
+                var videoResultsArray = new Array();
+                
+                for (var i =0; (i< docs.length) ; i++) {
+                        myID = docs[i].id.toString();
+                        
+                        filename = myID.replace(/^.*(\\|\/|\:)/, '');
+						
+                        frameNumber = filename.replace (".jpg",'');
+
+						videoFolderName = myID;
+						videoFolderName = videoFolderName.substring(0, videoFolderName.lastIndexOf("\\"));
+						
+						videoName = videoFolderName.replace(/^.*(\\|\/|\:)/, '');
+                        videoName = videoName.replace("_keyframes",".mp4");	
+						videoFolderName = videoFolderName.substring(0, videoFolderName.lastIndexOf("\\"));	
+						videoFolderName = videoFolderName.replace(/\\/g,'/');
+						time = parseInt(frameNumber);
+                        if (videoResultsArray[videoName] == null){
+                                videoResultsArray[videoName] = new videoResults(videoName, videoFolderName);
+						}
+                        
+                        //changeme if fps != 1
+                        //time = time * fps;
+                        
+                        videoResultsArray[videoName].videoTime.push(time);
+                        videoResultsArray[videoName].frameRank.push((i+1));
+                }
+				
+                var i =0;
+								
+                for (var x in videoResultsArray){
+                        i++;    
+                        if ( (i <= numMaxVideosToShow) ){                    
+                                var value = videoResultsArray[x];
+
+                                recentVideo = $("<h2>Video Query Result " + i + ": <font color=grey>"+ value.videoName + " </font> </h2>"       
+                                        + "<div align=\"center\" style=\"border:2px solid black\"><video id="+ value.videoId +" width=\"480px\" height=\"270px\" controls><source src=\"" + value.videoPath + "/" + value.videoName +"\" type='video/mp4' /></video>" 
+                                        + "<button onClick=\" capture(" + value.videoId +") \" style=\"width: 128px;border: solid 2px #ccc;\">Capture Frame</button><br/>"
+										+ "</div>");
+
+                                lastVideo.append(recentVideo); 
+								
+								lastVideo.append("<p> Matched Times: ");
+                                var h, m, s, seconds;
+                                for (y = 0; (y < value.videoTime.length -1); y++) { 
+								        
+                                        seconds = (value.videoTime[y] - 2);
+										h = seconds / 3600.0; //3600000.0
+                                        m = (h - Math.floor(h)) * 60.0;
+                                        s = (m - Math.floor(m)) * 60;
+										lastVideo.append ("Rank: "+value.frameRank[y]+ " - Time: ");
+										//console.log(value.videoName);	
+										var timeString = ((Math.floor(h)>0 ? (parseInt(Math.floor(h)) + ":") : "") + (m >= 10 ? parseInt(Math.floor(m)) : "0" + parseInt(Math.floor(m))) + ":" + (s >= 10 ? parseInt(Math.floor(s)) : "0" + parseInt(Math.floor(s))) );
+										lastVideo.append ("<button onclick=\"setCurTime("+ value.videoId +", "+ seconds +")\" type=\"button\">" + timeString + "</button>");
+										lastVideo.append ("<br>");
+                                }
+                                seconds = ( value.videoTime[value.videoTime.length - 1] -2 );
+								h =  seconds / 3600.0; //3600000.0
+                                m = (h - Math.floor(h)) * 60.0;
+                                s = (m - Math.floor(m)) * 60;
+                                lastVideo.append ("Rank: "+value.frameRank[value.videoTime.length - 1]+ " - Time: ");
+								timeString = ((Math.floor(h)>0 ? (parseInt(Math.floor(h)) + ":") : "") + (m >= 10 ? parseInt(Math.floor(m)) : "0" + parseInt(Math.floor(m))) + ":" + (s >= 10 ? parseInt(Math.floor(s)) : "0" + parseInt(Math.floor(s))) );
+								lastVideo.append ("<button onclick=\"setCurTime("+ value.videoId +", "+ seconds +")\" type=\"button\">" + timeString + "</button>");
+								lastVideo.append ("<br></p>");
+                                								
+
+                        }
+                }
+                
+        }
+        
+        function printResults(docs) {
+                
+                var last = $("#imageResults");
+                wrapper = $("<div class=\"row\"></div>");
+                wrapper.insertAfter(last);
+                        last = wrapper;
+                for (var i =0; (i< docs.length); i++) {
+						
+                        myID = docs[i].id.toString();
+                        myID = myID.replace(/\\/g, '/');
+                        var col = "col-md-3";
+                        
+						recent = $( "<div class=\""+col+"\"> <a href=\""+myID+"\" class=\"thumbnail\">"
+						+ "<img src=\""+myID+"\"style=\"width:170px;height:170px\"></a>"
+						+ "</div>" );
+                        last.append(recent);
+                        
+                }
+        }
+                
+        function clearData() {
+                $(".row").remove();
+                $("#videoResults").empty();
+                $("#perf").html("Please stand by .... <img src=\"img/loader-light.gif\"/>");
+        }
+		
+		function setCurTime(vid, seconds) { 
+		vid.currentTime=seconds;
+		} 
+		
+  </script>
+</head>
+
+<body>
+  <div data-role="page">
+    <div style="width:100%; text-align:right; background-color: #FFF"><img src="img/logo.png" /></div>
+
+    <div class="ui-corner-all custom-corners">
+      <div class="ui-bar ui-bar-a">
+        <h1>LIRE Web Demo</h1>
+      </div>
+
+      <div class="ui-body ui-body-a">
+        <p>This page is a simple demonstrator for the extension to video of the LIRE image search library (LIvRE). It uses a Solr back-end. Use the links below the images to trigger a new
+        content based search request.</p>
+      </div>
+    </div>
+
+    <div class="ui-field-contain">
+      <p><label for="urlq">Search by image URL:</label><input type="text" data-mini="true" id="urlq" name="urlq" placeholder=
+      "http://..." /></p>
+
+      <p><a href="javascript:searchUrl(&#39;cl_ha&#39;);" data-role="button" data-mini="true" data-inline="true">ColorLayout</a>
+      <a href="javascript:searchUrl(&#39;ce_ha&#39;);" data-role="button" data-mini="true" data-inline="true">CEDD</a> <a href=
+      "javascript:searchUrl(&#39;eh_ha&#39;);" data-role="button" data-mini="true" data-inline="true">EdgeHistogram</a> <a href=
+      "javascript:searchUrl(&#39;jc_ha&#39;);" data-role="button" data-mini="true" data-inline="true">JCD</a> <a href=
+      "javascript:searchUrl(&#39;ph_ha&#39;);" data-role="button" data-mini="true" data-inline="true">PHOG</a> <a href=
+      "javascript:searchUrl(&#39;sc_ha&#39;);" data-role="button" data-mini="true" data-inline="true">ScalableColor</a></p>
+    </div>
+
+    <div class="ui-corner-all custom-corners" data-role="collapsible">
+      <h3>Search by tags (search handler)</h3>
+
+      <div class="ui-field-contain">
+        <label for="tagsearch">Search by tag:</label><input type="text" data-mini="true" id="tagsearch" name="tagsearch"
+        placeholder="tags:*" />
+      </div>
+
+      <div class="ui-field-contain">
+        <label for="sorthist">Order by:</label><input type="text" data-mini="true" id="sorthist" name="sorthist" data-clear-btn=
+        "true" />
+      </div>
+    </div>
+
+    <div class="ui-corner-all custom-corners" data-role="collapsible">
+      <h3>Query order method (search handler)</h3>
+
+      <div class="ui-field-contain">
+        <fieldset data-role="controlgroup" class="ui-controlgroup ui-controlgroup-vertical ui-corner-all">
+          <div role="heading" class="ui-controlgroup-label">
+            <legend>Select method for CBIR combination with tag search:</legend>
+          </div>
+
+          <div class="ui-controlgroup-controls">
+            <div class="ui-radio">
+              <label for="radio-v-1a" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-first-child ui-radio-on">boost
+              score</label><input data-mini="true" type="radio" name="radio-v-1" id="radio-v-1a" checked="checked" data-cacheval=
+              "false" value="boost" />
+            </div>
+
+            <div class="ui-radio">
+              <label for="radio-v-1b" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-off">sort
+              results</label><input data-mini="true" type="radio" name="radio-v-1" id="radio-v-1b" data-cacheval="false" value=
+              "sort" />
+            </div>
+
+            <div class="ui-radio">
+              <label for="radio-v-1c" class=
+              "ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-last-child ui-radio-off">filter query by
+              range</label><input data-mini="true" type="radio" name="radio-v-1" id="radio-v-1c" data-cacheval="true" value=
+              "filter" />
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="ui-corner-all custom-corners" data-role="collapsible">
+      <h3>Search parameters (lireq handler)</h3>
+
+      <div class="ui-field-contain">
+        <label for="slider-1">Accuracy:</label> <input type="range" name="slider-1" id="slider-1" value="0.35" min="0.05" max="1.0"
+        step="0.05" />
+      </div>
+
+      <div class="ui-field-contain">
+        <label for="slider-can">Number of candidates:</label> <input type="range" name="slider-can" id="slider-can" value="10000"
+        min="10" max="100000" step="100" />
+      </div>
+    </div>
+	
+	<script>
+
+	$( document ).ready(function() {
+                // get JSON-formatted data from the server
+                $("#perf").html("Please stand by .... <img src=\"img/loader-light.gif\"/>");
+
+                $.getJSON( solrUrlPrefix + "lireq", function( myResult ) {
+                        $("#perf").html("Index search time: " + myResult.responseHeader.QTime + " ms");
+                        //console.log(myResult);
+                        
+                        //printVideoResults(myResult.docs);
+                        printResults(myResult.docs);
+                });
+        
+        });
+
+
+        function searchUrl(field) {
+        //console.log($("#urlq").val());
+       
+        // clear the old data
+        clearData();
+        $("#results").html("Results for query \""+$("#urlq").val().substring(0,12)+"...\"");
+
+        // get all the new data from the server ...
+        serverUrl = solrUrlPrefix + "lireq?rows="+numRows+"&url="+$("#urlq").val()+"&field="+field;
+        if ($("#slider-1").val()) serverUrl += "&accuracy="+$("#slider-1").val();
+        if ($("#slider-can").val()) serverUrl += "&candidates="+$("#slider-can").val();
+
+        //console.log(serverUrl);
+        $.getJSON( serverUrl, function( myResult ) {
+                $("#perf").html("Index search time: " + myResult.responseHeader.QTime + " ms (query " + myResult.RawDocsSearchTime + " ms, rank " + myResult.ReRankSearchTime  + " ms)");
+                console.log(myResult);
+                
+                printVideoResults(myResult.docs);
+                printResults(myResult.docs);
+                });
+        };    
+
+    </script>
+
+	
+    <p class="otherLink"><i id="perf">Index search time</i></p>
+
+	<!-- Video -->
+    <h1>Video Query Results</h1>
+    <div id="videoResults"></div>
+
+	
+	<!-- Image -->
+	<h1>Image Query Results</h1>
+	<div id ="imageResults" class="container"></div>
+	   
+	<!-- Captures -->
+	<h1>Frame Captures</h1>
+	<div id="container" style="border:none">
+
+		<canvas id="imageView" style="display:none; left: 0; top: 0; z-index: 0;border:none" width="300" height="200">
+      
+		</canvas>
+
+    </div>
+		
+	<div id="imgs"> 
+	
+	</div>
+	
+	<br style="clear:both;" />
+	
+  </div>
+  
+</body>
+
+</html>
