@@ -82,10 +82,11 @@
     <li>Download and extract the LIvRE Project files.</li>
     <li>Download and extract <a href="https://archive.apache.org/dist/lucene/solr/4.10.2/">Apache Solr v4.10.2</a> (other versions not tested).</li>
     <li>Open a command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . At this point, you should have a Solr server up and running at http://localhost:8983/solr/</li>
-    <li>Copy the Lire Request Handler from the LIvRE Project files, "lire-request-handler.jar" , at /solr-4.10.2/example/solr-webapp/webapp/WEB-INF/lib . NOTE: This folder is only generated after running Solr server for the first time (previous step).</li>
+    <li>Copy the Lire Request Handler from the LIvRE Project files, "lire-request-handler.jar" , at the following folders: /solr-4.10.2/example/solr-webapp/webapp/ and /solr-4.10.2/example/solr-webapp/webapp/WEB-INF/lib/ . NOTE: The previous folder is only generated after running Solr server for the first time (previous step).</li>
     <li>Replace "schema.xml" and "solrconfig.xml" files on /solr-4.10.2/example/solr/collection1/conf with the ones provided in the LIvRE Project files. NOTE: Just like the previous step, this folder is only generated after running Solr server for the first time.</li>
     
-    <li>Copy the index file from the LIvRE Project, "index.html" , inside /solr-4.10.2/example/solr-webapp/webapp/</li>
+    <li>Move the index file, "index.html" , as well as "extractParseDataset.py", "extractParse.py" and "uploadDataset.py" from the LIvRE Project files inside /solr-4.10.2/example/solr-webapp/webapp/</li>
+    <li>Finally, move the "lib" folder and the "videos" folder from the LIvRE Project files inside /solr-4.10.2/example/solr-webapp/webapp/ </li>
     
  </ol>
         
