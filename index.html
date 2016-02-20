@@ -64,7 +64,7 @@
 <h3>
 <a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h3>
 
-        <p>Before proceeding to index your video collection, make sure the system where the video retrieval server will run fulfills the following dependencies. It is recommended to add them to the system path. </p>
+        <p>Before proceeding to get your LIvRE CBVR system up and running with your videos, be sure to fulfills the following dependencies and to add them to the system path of your OS: </p>
  <ul>
     <li><a href="https://www.ffmpeg.org/">ffmpeg</a></li>
     <li><a href="https://curl.haxx.se/">cURL</a></li>
@@ -86,15 +86,16 @@
     <li>Move or copy the content inside the /_data/ folder of the LIvRE Project into /solr-4.10.2/example/solr-webapp/webapp/ .
     <li>Replace the content inside the /_config/ folder of the LIvRE Project into /solr-4.10.2/example/solr/collection1/conf/ .
     <li>Move or copy the "lire-request-handler.jar" file into /solr-4.10.2/example/solr-webapp/webapp/WEB-INF/lib/ .
-                
+  </ol>
+        
    <h4>
 <a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Processing and Indexing a video collection</h4>
       Now that we have set-up our LIvRE CBVR system, let's move to the interesting part: Processing, Indexing and Searching through your video collection.
   <ol>
     <li>Move or copy all the videos and/or video folders you want to work with into /solr-4.10.2/example/solr-webapp/webapp/myDataset/videos/ . </li>
     <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder and open a terminal/command line there .</li>
-    <li>Inside the command line/terminal type "python 
-    
+    <li>Inside the command line/terminal type "python uploadParseDataset.py" . Depending on the amount of videos and
+    </ol>
      <h4>
 <a id="done" class="anchor" href="#done" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Done!</h4>
   
