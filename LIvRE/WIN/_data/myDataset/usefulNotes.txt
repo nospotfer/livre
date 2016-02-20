@@ -1,0 +1,6 @@
+Note: If you want to delete all the indexed contents on your LIvRE CBVR system, run the following commands on a terminal/command line:
+
+curl http://localhost:8983/solr/collection1/update  -H "Content-Type: text/xml" --data-binary "<delete><query>*:*</query></delete>"
+curl http://localhost:8983/solr/collection1/update  -H "Content-Type: text/xml" --data-binary "<commit/>"
+
+If you are not using the default Solr port and Core, don't forget to replace it.
