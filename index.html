@@ -100,16 +100,19 @@
     <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder and open a terminal/command line there and type "python extractParseDataset.py" .</li>
     
   </ol>
-    At this point, if all the dependencies are met and everything went fine, your videos should start processing. This step might take from few minutes to several hours (or even days!) depending on the amount of videos you are processing and your computer. TIP: If you have a multi-core machine, you can optimize the processing time by changing the "numThreads" attribute inside the "extractParseDataset.py" file by something like the number of cores on your machine +1.  Default value is 3.
+    At this point, if all the dependencies are met and everything went fine, your videos should start processing. This step might take from few minutes to several hours (or even days!) depending on the amount of videos you are processing and your computer. TIP: If you have a multi-core machine, you can optimize the processing time by changing the "numThreads" attribute inside the "extractParseDataset.py" file by something like the number of cores on your machine +1 (Default value is 3).
+        <br>
         
  <h4>
 <a id="index" class="anchor" href="#index" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Indexing your videos</h4>
+        
         Now that your videos are (finally!) processed, it is time to index them at the Solr server to be able to start working/playing with them with the web interface.
         
     <ol>
     <li>Open a terminal/command line inside /solr-4.10.2/example/ again and run the Solr server with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ . </li>
-    <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder, open another terminal/command line there and type "python uploadParseDataset.py".</li>
-    <li>Inside the command line/terminal  . </li>
+      <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder, open another terminal/command line there and type "python uploadParseDataset.py". NOTE: If you are familiar with Solr and you are running your server on different port than the default 8983 or if your Core name is different from the default "collection1", remember to change these attributes inside the "uploadDataset.py" file.</li>
+    
+      
     
      
         
