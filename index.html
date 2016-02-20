@@ -81,20 +81,17 @@
   <ol>
     <li>Download and extract the LIvRE Project files.</li>
     <li>Download and extract <a href="https://archive.apache.org/dist/lucene/solr/4.10.2/">Apache Solr v4.10.2</a> (other versions not tested).</li>
-    <li>Open a command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . At this point, you should have a Solr server up and running at http://localhost:8983/solr/</li>
-    <li>Copy the Lire Request Handler from the LIvRE Project files, "lire-request-handler.jar" , at the following folders: /solr-4.10.2/example/solr-webapp/webapp/ and /solr-4.10.2/example/solr-webapp/webapp/WEB-INF/lib/ . NOTE: The previous folder is only generated after running Solr server for the first time (previous step).</li>
-    <li>Replace "schema.xml" and "solrconfig.xml" files on /solr-4.10.2/example/solr/collection1/conf with the ones provided in the LIvRE Project files. NOTE: Just like the previous step, this folder is only generated after running Solr server for the first time.</li>
-    
-    <li>Move the index file, "index.html" , as well as "extractParseDataset.py", "extractParse.py" and "uploadDataset.py" from the LIvRE Project files inside /solr-4.10.2/example/solr-webapp/webapp/</li>
-    <li>Finally, move the "lib" folder and the "videos" folder from the LIvRE Project files inside /solr-4.10.2/example/solr-webapp/webapp/ </li>
-    
- </ol>
-        
+    <li>Open a command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ . It is important to run the server at least once before proceding to the next steps so that some needed folders and files are generated. 
+    <li>Stop the Solr server with "control+c" from the command line.</li>
+    <li>Move or copy the content inside the /_data/ folder of the LIvRE Project into /solr-4.10.2/example/solr-webapp/webapp/ .
+    <li>Replace the content inside the /_config/ folder of the LIvRE Project into /solr-4.10.2/example/solr/collection1/conf/ .
+    <li>Move or copy the "lire-request-handler.jar" file into /solr-4.10.2/example/solr-webapp/webapp/WEB-INF/lib/ .
+                
    <h4>
 <a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Processing and Indexing a video collection</h4>
-   
-        <ol>
-          <li>Copy the "videos" folder as well as "extractParseDataset.py" and "uploadDataset.py" inside  </li>
+      Now that we have successfully set-up our LIvRE CBVR system, let's move to the interesting part: Processing, Indexing and Searching through your video collection.
+  <ol>
+    <li>Move to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder </li>
      <h4>
 <a id="done" class="anchor" href="#done" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Done!</h4>
   
