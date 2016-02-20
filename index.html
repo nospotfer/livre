@@ -75,13 +75,13 @@
 
   
 <h3>
-<a id="instructions" class="anchor" href="#instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Set-Up Instructions (Windows)</h3>
+<a id="instructions" class="anchor" href="#instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Set-Up Instructions</h3>
 <h4>
 <a id="setup" class="anchor" href="#setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download and installation</h4>
   <ol>
     <li>Download and extract the LIvRE Project files.</li>
     <li>Download and extract <a href="https://archive.apache.org/dist/lucene/solr/4.10.2/">Apache Solr v4.10.2</a> (other versions not tested).</li>
-    <li>Open a command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ . It is important to run the server at least once before proceding to the next steps so that some needed folders and files are generated. 
+    <li>Open a terminal/command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ . It is important to run the server at least once before proceding to the next steps so that some needed folders and files are generated. 
     <li>Stop the Solr server with "control+c" from the command line.</li>
     <li>Move or copy the content inside the /_data/ folder of the LIvRE Project into /solr-4.10.2/example/solr-webapp/webapp/ .
     <li>Replace the content inside the /_config/ folder of the LIvRE Project into /solr-4.10.2/example/solr/collection1/conf/ .
@@ -89,9 +89,12 @@
                 
    <h4>
 <a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Processing and Indexing a video collection</h4>
-      Now that we have successfully set-up our LIvRE CBVR system, let's move to the interesting part: Processing, Indexing and Searching through your video collection.
+      Now that we have set-up our LIvRE CBVR system, let's move to the interesting part: Processing, Indexing and Searching through your video collection.
   <ol>
-    <li>Move to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder </li>
+    <li>Move or copy all the videos and/or video folders you want to work with into /solr-4.10.2/example/solr-webapp/webapp/myDataset/videos/ . </li>
+    <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder and open a terminal/command line there .</li>
+    <li>Inside the command line/terminal type "python 
+    
      <h4>
 <a id="done" class="anchor" href="#done" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Done!</h4>
   
