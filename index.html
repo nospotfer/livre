@@ -84,7 +84,7 @@
     <li>Open a terminal/command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ . It is important to run the server at least once before proceding to the next steps so that some needed folders and files are generated. 
     <li>Stop the Solr server with "control+c" from the command line.</li>
     <li>Move or copy the content inside the /_data/ folder of the LIvRE Project into /solr-4.10.2/example/solr-webapp/webapp/ .
-    <li>Replace the content inside the /_config/ folder of the LIvRE Project into /solr-4.10.2/example/solr/collection1/conf/ .
+      <li>Replace the content inside the /_config/ folder of the LIvRE Project into /solr-4.10.2/example/solr/collection1/conf/ . 
     <li>Move or copy the "lire-request-handler.jar" file into /solr-4.10.2/example/solr-webapp/webapp/WEB-INF/lib/ .
   </ol>
         
@@ -95,10 +95,10 @@
         
       Now that we have set-up our LIvRE CBVR system, let's move to the interesting part: Processing, Indexing and Searching through your video collection.
   <ol>
-    <li>Open a terminal/command line inside /solr-4.10.2/example/ and run the Solr server with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ .
+    <li>Open a terminal/command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ . </li>
     <li>Move or copy all the videos and/or video folders you want to work with into /solr-4.10.2/example/solr-webapp/webapp/myDataset/videos/ . </li>
-    <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder and open a terminal/command line there .</li>
-    <li>Inside the command line/terminal type "python uploadParseDataset.py" . </li>
+    <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder and open a terminal/command line there and type "python extractParseDataset.py" .</li>
+    
   </ol>
     At this point, if all the dependencies are met and everything went fine, your videos should start processing. This step might take from few minutes to several hours (or even days!) depending on the amount of videos you are processing and your computer. TIP: If you have a multi-core machine, you can optimize the the processing time by changing the "numThreads" attribute inside the "extractParseDataset.py" file by something like the number of cores on your computer +1.  Default value is 3.
         
@@ -107,7 +107,7 @@
         Now that your videos are (finally!) processed, it is time to index them at the Solr server to be able to start working/playing with them with the web interface.
         
     <ol>
-    <li>Move or copy all the videos and/or video folders you want to work with into /solr-4.10.2/example/solr-webapp/webapp/myDataset/videos/ . </li>
+    <li>Open a terminal/command line inside /solr-4.10.2/example/ and run the Solr server with "java -jar start.jar" . After some moments you should have a Solr server up and running at http://localhost:8983/solr/ . </li>
     <li>Go to the /solr-4.10.2/example/solr-webapp/webapp/myDataset/ folder and open a terminal/command line there .</li>
     <li>Inside the command line/terminal type "python uploadParseDataset.py" . </li>
     
