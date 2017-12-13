@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>LIvRE CBVR engine</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+  		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ 		 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ 		 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');	
+ 		 ga('create', 'UA-73709037-1', 'auto');
+  		 ga('send', 'pageview');
+	</script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>LIvRE</h1>
+        <p>Content-Based Video Retrieval engine based on LIRE</p>
+
+        <p class="view"><a href="https://github.com/nospotfer/livre">View the Project on GitHub <small>nospotfer/livre</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/nospotfer/livre/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/nospotfer/livre/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/nospotfer/livre">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About LIvRE</h3>
+
+        <p>LIvRE is a free, open-source, multi-platform Content-Based Video Retrieval (CBVR) search engine based on <a href="http://www.lire-project.net/">the LIRE project</a> . In other words, LIvRE makes it possible to efficiently parse, index and search through small and huge video collections using images as input queries.
+        
+          <br>A working demo can be found here: <a href="http://www.ub.edu/cvub/livre/">http://www.ub.edu/cvub/livre/</a>
+	<br>More information and documentation about the project can be found here: <a href="http://upcommons.upc.edu/handle/2117/79052">http://upcommons.upc.edu/handle/2117/79052</a>
+
+        <!-- TODO: VIDEO COMES HERE-->
+
+<h3>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features Overview</h3>
+
+<ul>
+    <li>Open source.</li>
+    <li>Sate-of-the-art features based on the LIRE CBIR library.</li>
+    <li>Powerful performance.</li>
+  <li>Covers the 3 main blocks of a full CBVR system: Extraction, Indexing and Retrieval.</li>
+    <li>Uses <a href="http://lucene.apache.org/solr/">Apache Solr</a> as search server.</li>
+  	<li>Scalable.</li>
+    <li>Multi-platform and OS independent.</li>
+</ul>
+ 
+
+<h3>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h3>
+
+        <p>Before proceeding to index your video collection, make sure the system where the video retrieval server will run fulfills the following dependencies. It is recommended to add them to the system path. </p>
+ <ul>
+    <li><a href="https://www.ffmpeg.org/">ffmpeg</a></li>
+    <li><a href="https://curl.haxx.se/">cURL</a></li>
+    <li><a href="https://www.python.org">Python 3.x</a></li>
+    <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Java SE Development Kit 8</a> (OpenJDK seems to have issues with the Solr server)</li>
+ 
+</ul>
+
+  
+<h3>
+<a id="instructions" class="anchor" href="#instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Set-Up Instructions (Windows)</h3>
+<h4>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download and installation</h4>
+  <ol>
+    <li>Download and extract the LIvRE Project files.</li>
+    <li>Download and extract <a href="https://archive.apache.org/dist/lucene/solr/4.10.2/">Apache Solr v4.10.2</a> (other versions not tested).</li>
+    <li>Open a command line inside /solr-4.10.2/example/ and run the Solr server for the first time with "java -jar start.jar" . At this point, you should have a Solr server up and running at http://localhost:8983/solr/</li>
+    <li>Copy the Lire Request Handler from the LIvRE Project files, "lire-request-handler.jar" , at /solr-4.10.2/example/solr-webapp/webapp/WEB-INF/lib . NOTE: This folder is only generated after running Solr server for the first time (previous step).</li>
+    <li>Replace "schema.xml" and "solrconfig.xml" files on /solr-4.10.2/example/solr/collection1/conf with the ones provided in the LIvRE Project files. NOTE: Just like the previous step, this folder is only generated after running Solr server for the first time.</li>
+    
+    <li>Move the index file, "index.html" , as well as "extractParseDataset.py", "extractParse.py" and "uploadDataset.py" from the LIvRE Project files inside /solr-4.10.2/example/solr-webapp/webapp/</li>
+    <li>Finally, copy the "lib" folder and the "videos" folder from the LIvRE Project files inside /solr-4.10.2/example/solr-webapp/webapp/ </li>
+    
+ </ol>
+        
+   <h4>
+<a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Processing and Indexing a video collection</h4>
+   
+        <ol>
+          
+     <h4>
+<a id="done" class="anchor" href="#done" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Done!</h4>
+  
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>You can <a href="https://help.github.com/articles/basic-writing-and-formatting-syntax/#mentioning-users-and-teams" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h3>
+<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/nospotfer">nospotfer</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
