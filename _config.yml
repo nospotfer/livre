@@ -1,0 +1,8 @@
+title: LIvRE
+description: Content-Based Video Retrieval engine based on LIRE
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
